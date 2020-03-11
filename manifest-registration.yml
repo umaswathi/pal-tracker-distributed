@@ -1,0 +1,14 @@
+applications:
+- name: tracker-registration
+  path: ./applications/registration-server/build/libs/registration-server.jar
+  routes:
+  - route: registration-pal-uma.cfapps.io
+  memory: 1G
+  instances: 1
+  env:
+    JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 11.+ } }'
+    GRANT_TYPE: client_credentials
+  services:
+  - tracker-registration-database
+  - tracker-service-registry
+  - tracker-sso

@@ -1,0 +1,14 @@
+applications:
+- name: tracker-backlog
+  path: ./applications/backlog-server/build/libs/backlog-server.jar
+  routes:
+  - route: backlog-pal-uma.cfapps.io
+  memory: 1G
+  instances: 1
+  env:
+    JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 11.+ } }'
+    GRANT_TYPE: client_credentials
+  services:
+  - tracker-backlog-database
+  - tracker-service-registry
+  - tracker-sso

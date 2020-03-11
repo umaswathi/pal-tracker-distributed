@@ -1,0 +1,33 @@
+apply plugin: "org.springframework.boot"
+apply plugin: "io.spring.dependency-management"
+
+dependencyManagement {
+    imports {
+        mavenBom "io.pivotal.spring.cloud:spring-cloud-services-dependencies:$springCloudServicesClientLibrariesVersion"
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"
+    }
+}
+dependencies {
+    compile project(":components:rest-support")
+
+    compile "org.springframework.boot:spring-boot-starter-web"
+
+    compile "com.zaxxer:HikariCP:$hikariVersion"
+    compile "mysql:mysql-connector-java:$mysqlVersion"
+    compile "ch.qos.logback:logback-classic:$logbackVersion"
+
+    compile "org.springframework.boot:spring-boot-starter-actuator"
+    compile "io.pivotal.spring.cloud:spring-cloud-services-starter-service-registry"
+    compile "org.springframework.security:spring-security-config:$springVersion"
+    compile "org.springframework.cloud:spring-cloud-starter-netflix-eureka-server"
+    compile "org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:$springSecurityOAuthAutoconfigVersion"
+    compile "io.pivotal.spring.cloud:spring-cloud-sso-connector:$springCloudSsoVersion"
+    testCompile project(":components:test-support")
+
+}
+
+bootRun.environment([
+        "APPLICATION_OAUTH_ENABLED": true,
+        "SECURITY_OAUTH2_CLIENT_CLIENT_ID": "tracker-client",
+        "SECURITY_OAUTH2_CLIENT_CLIENT_SECRET": "supersecret"
+])
